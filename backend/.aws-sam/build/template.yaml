@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Pratika contact form backend
+Globals:
+  Function:
+    Timeout: 10
+    Runtime: python3.12
+    Environment:
+      Variables:
+        TABLE_NAME: pratika-site-contato
+        TOPIC_ARN: arn:aws:sns:us-east-1:248189947068:pratika-site-contato
+Resources:
+  ContactFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: pratika-contato
+      Handler: app.handler
+      CodeUri: ContactFunction
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName: pratika-site-contato
+      - SNSPublishMessagePolicy:
+          TopicName: pratika-site-contato
+      Events:
+        Contact:
+          Type: Api
+          Properties:
+            Path: /contato
+            Method: post
+            RestApiId:
+              Ref: ContactApi
+    Metadata:
+      SamResourceId: ContactFunction
+  ContactApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+      Cors:
+        AllowOrigin: '''*'''
+        AllowHeaders: '''Content-Type'''
+        AllowMethods: '''POST,OPTIONS'''
+Outputs:
+  ApiUrl:
+    Value:
+      Fn::Sub: https://${ContactApi}.execute-api.${AWS::Region}.amazonaws.com/prod/contato
