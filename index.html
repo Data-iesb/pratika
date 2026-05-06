@@ -10,13 +10,20 @@
 
         body {
             font-family: 'Lora', serif;
-            background: #c0392b;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+            background: #b5311e;
             color: #2c2c2c;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* Navigation */
+        #bg-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
         nav {
             background: #f5f0e8;
             border-bottom: 3px solid #2c2c2c;
@@ -27,7 +34,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
 
         .logo {
@@ -40,11 +47,7 @@
             display: inline-block;
         }
 
-        .nav-links {
-            display: flex;
-            gap: 0.5rem;
-            list-style: none;
-        }
+        .nav-links { display: flex; gap: 0.5rem; list-style: none; }
 
         .nav-links a {
             font-family: 'Special Elite', monospace;
@@ -54,7 +57,6 @@
             background: #fff;
             border: 2px solid #2c2c2c;
             transition: all 0.2s;
-            position: relative;
         }
 
         .nav-links a:hover, .nav-links a.active {
@@ -63,18 +65,16 @@
             transform: rotate(-1deg);
         }
 
-        /* Tape effect on nav items */
         .nav-links li:nth-child(odd) a { transform: rotate(0.5deg); }
         .nav-links li:nth-child(even) a { transform: rotate(-0.5deg); }
-        .nav-links li:nth-child(odd) a:hover { transform: rotate(-1.5deg); }
-        .nav-links li:nth-child(even) a:hover { transform: rotate(1.5deg); }
 
-        /* Sections */
         .section {
             display: none;
             padding: 3rem 2rem;
             max-width: 1000px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
             animation: fadeIn 0.3s ease;
         }
 
@@ -85,13 +85,12 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Paper card */
         .paper {
             background: #f5f0e8;
             padding: 2.5rem;
             margin: 2rem 0;
             position: relative;
-            box-shadow: 4px 4px 0 rgba(0,0,0,0.2);
+            box-shadow: 4px 4px 0 rgba(0,0,0,0.25);
             border: 1px solid #d4c9b8;
         }
 
@@ -102,15 +101,16 @@
             left: 30px;
             width: 60px;
             height: 20px;
-            background: rgba(200, 200, 100, 0.5);
+            background: rgba(200, 200, 100, 0.6);
             transform: rotate(-2deg);
+            box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
 
         .paper:nth-child(even)::before {
             left: auto;
             right: 40px;
             transform: rotate(1deg);
-            background: rgba(100, 180, 200, 0.4);
+            background: rgba(100, 180, 200, 0.5);
         }
 
         .paper:nth-child(odd) { transform: rotate(-0.5deg); }
@@ -131,11 +131,7 @@
             font-family: 'Special Elite', monospace;
         }
 
-        /* Hero */
-        .hero {
-            text-align: center;
-            padding: 4rem 2rem;
-        }
+        .hero { text-align: center; padding: 4rem 2rem; }
 
         .hero h1 {
             font-family: 'Playfair Display', serif;
@@ -165,12 +161,8 @@
             transform: rotate(-1deg);
         }
 
-        .hero-video video {
-            width: 100%;
-            display: block;
-        }
+        .hero-video video { width: 100%; display: block; }
 
-        /* Clip/pin decoration */
         .clip {
             position: absolute;
             top: -12px;
@@ -179,7 +171,6 @@
             transform: rotate(15deg);
         }
 
-        /* News cards */
         .news-item {
             background: #fff;
             border-left: 5px solid #c0392b;
@@ -203,12 +194,7 @@
             color: #888;
         }
 
-        /* Contact form */
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
+        form { display: flex; flex-direction: column; gap: 1rem; }
 
         input, textarea {
             font-family: 'Special Elite', monospace;
@@ -237,11 +223,8 @@
             transition: transform 0.2s;
         }
 
-        button[type="submit"]:hover {
-            transform: rotate(-1deg) scale(1.05);
-        }
+        button[type="submit"]:hover { transform: rotate(-1deg) scale(1.05); }
 
-        /* Footer */
         footer {
             background: #2c2c2c;
             color: #f5f0e8;
@@ -249,6 +232,8 @@
             padding: 2rem;
             margin-top: 3rem;
             font-family: 'Special Elite', monospace;
+            position: relative;
+            z-index: 1;
         }
 
         footer a {
@@ -263,13 +248,8 @@
 
         footer a:hover { color: #e74c3c; }
 
-        .ig-icon {
-            width: 24px;
-            height: 24px;
-            fill: currentColor;
-        }
+        .ig-icon { width: 24px; height: 24px; fill: currentColor; }
 
-        /* Responsive */
         @media (max-width: 600px) {
             .hero h1 { font-size: 2.5rem; }
             nav { flex-direction: column; gap: 1rem; }
@@ -279,6 +259,8 @@
     </style>
 </head>
 <body>
+    <canvas id="bg-canvas"></canvas>
+
     <nav>
         <a href="#" class="logo" onclick="showSection('home')">Prátika</a>
         <ul class="nav-links">
@@ -288,37 +270,32 @@
         </ul>
     </nav>
 
-    <!-- Home / Notícias -->
     <section id="noticias" class="section active">
         <div class="hero">
             <h1>Prátika</h1>
             <p>Jornalismo feito por estudantes, com a energia de quem vive a notícia.</p>
             <div class="hero-video">
-                <video autoplay muted loop playsinline>
+                <video autoplay muted loop playsinline style="pointer-events:none">
                     <source src="pratika.mp4" type="video/mp4">
                 </video>
             </div>
         </div>
-
         <div class="paper">
             <span class="clip">📎</span>
             <h2>Últimas Notícias</h2>
         </div>
-
         <div class="news-item">
             <h3>Equipe Prátika dá início às atividades de 2026</h3>
             <p class="date">05 de maio, 2026</p>
-            <p style="font-family: 'Special Elite', monospace; margin-top: 0.5rem;">A equipe se reuniu para planejar as próximas coberturas e pautas do semestre. Muita coisa boa vem por aí!</p>
+            <p style="font-family:'Special Elite',monospace;margin-top:0.5rem">A equipe se reuniu para planejar as próximas coberturas e pautas do semestre. Muita coisa boa vem por aí!</p>
         </div>
-
         <div class="news-item">
             <h3>Novo site no ar!</h3>
             <p class="date">05 de maio, 2026</p>
-            <p style="font-family: 'Special Elite', monospace; margin-top: 0.5rem;">Nosso espaço digital está de cara nova. Aqui você encontra tudo sobre o que estamos produzindo.</p>
+            <p style="font-family:'Special Elite',monospace;margin-top:0.5rem">Nosso espaço digital está de cara nova. Aqui você encontra tudo sobre o que estamos produzindo.</p>
         </div>
     </section>
 
-    <!-- Quem Somos -->
     <section id="quem-somos" class="section">
         <div class="paper">
             <span class="clip">📌</span>
@@ -327,7 +304,6 @@
             <br>
             <p>Somos uma equipe diversa, curiosa e apaixonada por contar histórias que importam — sempre com um olhar jovem e autêntico.</p>
         </div>
-
         <div class="paper">
             <span class="clip">📎</span>
             <h2>Nossa Missão</h2>
@@ -335,14 +311,13 @@
         </div>
     </section>
 
-    <!-- Fale Conosco -->
     <section id="contato" class="section">
         <div class="paper">
             <span class="clip">📌</span>
             <h2>Fale Conosco</h2>
             <p>Tem uma pauta, sugestão ou quer bater um papo? Manda pra gente!</p>
             <br>
-            <form onsubmit="event.preventDefault(); alert('Mensagem enviada! Obrigado pelo contato.');">
+            <form onsubmit="event.preventDefault();alert('Mensagem enviada! Obrigado pelo contato.');">
                 <input type="text" placeholder="Seu nome" required>
                 <input type="email" placeholder="Seu e-mail" required>
                 <textarea rows="5" placeholder="Sua mensagem..." required></textarea>
@@ -356,7 +331,7 @@
             <svg class="ig-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
             @pratika.iesb
         </a>
-        <p style="margin-top: 1rem; font-size: 0.85rem; opacity: 0.7;">© 2026 Prátika — IESB</p>
+        <p style="margin-top:1rem;font-size:0.85rem;opacity:0.7">© 2026 Prátika — IESB</p>
     </footer>
 
     <script>
@@ -367,6 +342,212 @@
             document.getElementById(id).classList.add('active');
             document.querySelector(`a[href="#${id}"]`).classList.add('active');
         }
+
+        // === SCRAPBOOK CANVAS BACKGROUND EFFECTS ===
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let W, H;
+
+        function resize() {
+            W = canvas.width = window.innerWidth;
+            H = canvas.height = document.documentElement.scrollHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Seeded random for consistent positions
+        function seeded(s) { return function() { s = (s * 9301 + 49297) % 233280; return s / 233280; }; }
+        const rng = seeded(42);
+
+        // Generate torn paper scraps
+        const scraps = [];
+        for (let i = 0; i < 18; i++) {
+            scraps.push({
+                x: rng() * W,
+                y: rng() * H,
+                w: 40 + rng() * 80,
+                h: 30 + rng() * 60,
+                rot: (rng() - 0.5) * 0.4,
+                alpha: 0.06 + rng() * 0.08,
+                drift: (rng() - 0.5) * 0.3,
+                speed: 0.1 + rng() * 0.2
+            });
+        }
+
+        // Generate tape strips
+        const tapes = [];
+        for (let i = 0; i < 12; i++) {
+            tapes.push({
+                x: rng() * W,
+                y: rng() * H,
+                w: 50 + rng() * 70,
+                h: 12 + rng() * 8,
+                rot: (rng() - 0.5) * 0.6,
+                alpha: 0.12 + rng() * 0.1,
+                color: rng() > 0.5 ? 'rgba(200,190,100,' : 'rgba(100,180,200,'
+            });
+        }
+
+        // Generate paper clips
+        const clips = [];
+        for (let i = 0; i < 8; i++) {
+            clips.push({
+                x: rng() * W,
+                y: rng() * H,
+                rot: (rng() - 0.5) * 1.0,
+                size: 16 + rng() * 12,
+                swing: rng() * Math.PI * 2
+            });
+        }
+
+        // Crumple texture noise
+        function drawCrumpleTexture() {
+            const imgData = ctx.createImageData(W, H);
+            const d = imgData.data;
+            for (let i = 0; i < d.length; i += 4) {
+                const v = Math.random() * 255;
+                d[i] = v; d[i+1] = v; d[i+2] = v;
+                d[i+3] = 8;
+            }
+            ctx.putImageData(imgData, 0, 0);
+        }
+
+        // Draw torn paper edge (irregular polygon)
+        function drawTornPaper(scrap) {
+            ctx.save();
+            ctx.translate(scrap.x, scrap.y);
+            ctx.rotate(scrap.rot);
+            ctx.globalAlpha = scrap.alpha;
+            ctx.fillStyle = '#f5f0e8';
+            ctx.beginPath();
+            const steps = 12;
+            for (let i = 0; i <= steps; i++) {
+                const px = (i / steps) * scrap.w - scrap.w / 2;
+                const py = -scrap.h / 2 + (Math.sin(i * 1.7) * 3);
+                i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+            }
+            for (let i = steps; i >= 0; i--) {
+                const px = (i / steps) * scrap.w - scrap.w / 2;
+                const py = scrap.h / 2 + (Math.cos(i * 2.1) * 4);
+                ctx.lineTo(px, py);
+            }
+            ctx.closePath();
+            ctx.fill();
+            // subtle shadow
+            ctx.shadowColor = 'rgba(0,0,0,0.15)';
+            ctx.shadowBlur = 4;
+            ctx.shadowOffsetX = 2;
+            ctx.shadowOffsetY = 2;
+            ctx.fill();
+            ctx.restore();
+        }
+
+        // Draw tape strip
+        function drawTape(tape) {
+            ctx.save();
+            ctx.translate(tape.x, tape.y);
+            ctx.rotate(tape.rot);
+            ctx.globalAlpha = tape.alpha;
+            ctx.fillStyle = tape.color + tape.alpha + ')';
+            ctx.fillRect(-tape.w / 2, -tape.h / 2, tape.w, tape.h);
+            ctx.restore();
+        }
+
+        // Draw paper clip
+        function drawClip(clip, t) {
+            ctx.save();
+            ctx.translate(clip.x, clip.y);
+            ctx.rotate(clip.rot + Math.sin(t * 0.5 + clip.swing) * 0.05);
+            ctx.globalAlpha = 0.3;
+            ctx.strokeStyle = '#888';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            const s = clip.size;
+            ctx.moveTo(0, -s);
+            ctx.lineTo(0, s * 0.6);
+            ctx.arc(0, s * 0.6, s * 0.3, Math.PI, 0, true);
+            ctx.lineTo(s * 0.3 * 0.6, -s * 0.5);
+            ctx.arc(0, -s * 0.5, s * 0.3 * 0.6, 0, Math.PI, true);
+            ctx.stroke();
+            ctx.restore();
+        }
+
+        // Floating crumpled paper balls
+        const balls = [];
+        for (let i = 0; i < 6; i++) {
+            balls.push({
+                x: rng() * W,
+                y: rng() * H,
+                r: 8 + rng() * 14,
+                vx: (rng() - 0.5) * 0.4,
+                vy: -0.2 - rng() * 0.3,
+                alpha: 0.08 + rng() * 0.06
+            });
+        }
+
+        let time = 0;
+        function animate() {
+            time += 0.016;
+            ctx.clearRect(0, 0, W, H);
+
+            // Red gradient base
+            const grad = ctx.createRadialGradient(W/2, H/3, 0, W/2, H/3, W);
+            grad.addColorStop(0, '#d44332');
+            grad.addColorStop(1, '#8e1a0e');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, W, H);
+
+            // Crumple texture overlay
+            drawCrumpleTexture();
+
+            // Wrinkle lines (paper fold effect)
+            ctx.globalAlpha = 0.04;
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 1;
+            for (let i = 0; i < 8; i++) {
+                ctx.beginPath();
+                const startX = rng() * W;
+                ctx.moveTo(startX, 0);
+                ctx.quadraticCurveTo(startX + 100, H / 2, startX - 50, H);
+                ctx.stroke();
+            }
+            ctx.globalAlpha = 1;
+
+            // Torn paper scraps (floating gently)
+            scraps.forEach(s => {
+                s.y += Math.sin(time + s.x) * s.speed;
+                s.x += Math.cos(time * 0.7 + s.y * 0.01) * s.drift;
+                drawTornPaper(s);
+            });
+
+            // Tape strips
+            tapes.forEach(drawTape);
+
+            // Paper clips (subtle swing)
+            clips.forEach(c => drawClip(c, time));
+
+            // Floating paper balls
+            balls.forEach(b => {
+                b.x += b.vx + Math.sin(time + b.x * 0.01) * 0.2;
+                b.y += b.vy;
+                if (b.y < -30) b.y = H + 30;
+                if (b.x < -30) b.x = W + 30;
+                if (b.x > W + 30) b.x = -30;
+                ctx.save();
+                ctx.globalAlpha = b.alpha;
+                ctx.fillStyle = '#f5f0e8';
+                ctx.beginPath();
+                ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        // Resize canvas on scroll to cover full page
+        new ResizeObserver(resize).observe(document.documentElement);
+        animate();
     </script>
 </body>
 </html>
