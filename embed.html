@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prátika News - Embed</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Special+Elite&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Lora', serif; background: #b5311e; color: #2c2c2c; padding: 2rem; }
+        .news-item { background: #f5f0e8; border-left: 5px solid #c0392b; padding: 1.5rem 2rem; margin: 1.5rem 0; box-shadow: 4px 4px 0 rgba(0,0,0,0.25); position: relative; }
+        .news-item::before { content: ''; position: absolute; top: -8px; left: 30px; width: 60px; height: 20px; background: rgba(200,200,100,0.6); transform: rotate(-2deg); }
+        .news-item:nth-child(odd) { transform: rotate(-0.3deg); }
+        .news-item:nth-child(even) { transform: rotate(0.4deg); }
+        .news-item:nth-child(even)::before { left: auto; right: 40px; background: rgba(100,180,200,0.5); transform: rotate(1deg); }
+        .news-item h3 { font-family: 'Playfair Display', serif; color: #c0392b; font-size: 1.4rem; margin-bottom: 0.5rem; }
+        .news-item .date { font-family: 'Special Elite', monospace; font-size: 0.85rem; color: #888; }
+        .news-item p { font-family: 'Special Elite', monospace; font-size: 1rem; line-height: 1.7; margin-top: 0.5rem; }
+        .news-item img { max-width: 100%; margin: 1rem 0; border: 3px solid #2c2c2c; box-shadow: 3px 3px 0 rgba(0,0,0,0.2); }
+        blockquote { border-left: 4px solid #c0392b; padding: 0.8rem 1.2rem; margin: 1rem 0; font-style: italic; background: rgba(192,57,43,0.05); font-family: 'Special Elite', monospace; }
+        #loading { text-align: center; color: #f5f0e8; font-family: 'Special Elite', monospace; padding: 2rem; }
+    </style>
+</head>
+<body>
+    <div id="news-container">
+        <div id="loading">Carregando notícias...</div>
+    </div>
+    <script>
+        const DOC_ID = '1TyPu9EzQDqpReml8ijRpvhM-KnVLrid-gwKk04213To';
+        const API_URL = `https://docs.google.com/document/d/${DOC_ID}/export?format=txt`;
+
+        async function loadNews() {
+            try {
+                const resp = await fetch(API_URL);
+                const text = await resp.text();
+                const container = document.getElementById('news-container');
+                container.innerHTML = '';
+
+                // Parse sections separated by ━━━
+                const sections = text.split(/━{5,}/);
+
+                sections.forEach(section => {
+                    const lines = section.trim().split('\n').filter(l => l.trim());
+                    if (lines.length < 2) return;
+
+                    // Skip header/footer sections
+                    if (lines[0].includes('CONEXÃO') || lines[0].includes('Fale Conosco') || lines[0].includes('Patrocinado')) return;
+
+                    const item = document.createElement('div');
+                    item.className = 'news-item';
+
+                    let html = '';
+                    lines.forEach((line, i) => {
+                        line = line.trim();
+                        if (!line) return;
+
+                        // First non-empty line = title
+                        if (i === 0 && !line.startsWith('•')) {
+                            html += `<h3>${line}</h3>`;
+                        } else if (line.match(/\d{2} de \w+, \d{4}/)) {
+                            html += `<span class="date">${line}</span>`;
+                        } else if (line.startsWith('\u201c') || line.startsWith('"')) {
+                            html += `<blockquote>${line}</blockquote>`;
+                        } else if (line.startsWith('•')) {
+                            html += `<p>${line}</p>`;
+                        } else {
+                            html += `<p>${line}</p>`;
+                        }
+                    });
+
+                    item.innerHTML = html;
+                    container.appendChild(item);
+                });
+
+                if (!container.children.length) {
+                    container.innerHTML = '<div id="loading">Nenhuma notícia encontrada.</div>';
+                }
+            } catch (e) {
+                document.getElementById('news-container').innerHTML = '<div id="loading">Erro ao carregar notícias.</div>';
+            }
+        }
+
+        loadNews();
+    </script>
+</body>
+</html>
