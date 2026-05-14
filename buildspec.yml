@@ -5,4 +5,5 @@ phases:
       - aws s3 sync . s3://www.pratika.blog.br --exclude ".git/*" --exclude "buildspec.yml"
   post_build:
     commands:
+      - aws lambda invoke --function-name pratika-ghost-sync --payload '{}' --cli-binary-format raw-in-base64-out /tmp/sync-out.json
       - aws cloudfront create-invalidation --distribution-id E2NBU3I3I8SK21 --paths "/*"
