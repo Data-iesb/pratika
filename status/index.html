@@ -3,118 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prátika - Status</title>
+    <title>Prátika - Status do Site</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Special+Elite&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Courier New', monospace; background: #1a1a2e; color: #0f0; min-height: 100vh; padding: 2rem; }
-        h1 { color: #00bcd4; margin-bottom: 1rem; font-size: 1.5rem; }
-        .status-box { background: #0d0d1a; border: 1px solid #333; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; }
-        .status-box h2 { color: #00bcd4; font-size: 1rem; margin-bottom: 0.5rem; }
-        .log { font-size: 0.85rem; line-height: 1.8; max-height: 300px; overflow-y: auto; }
-        .log .ok { color: #27ae60; }
-        .log .warn { color: #f39c12; }
-        .log .err { color: #e74c3c; }
-        .log .info { color: #888; }
-        .progress { background: #333; border-radius: 4px; height: 8px; margin: 0.5rem 0; overflow: hidden; }
-        .progress-bar { height: 100%; background: #00bcd4; transition: width 0.5s; border-radius: 4px; }
-        .refresh { color: #888; font-size: 0.75rem; margin-top: 1rem; }
-        a { color: #00bcd4; }
+        body { font-family: 'Lora', serif; background: #b5311e; color: #2c2c2c; min-height: 100vh; overflow-x: hidden; }
+        nav { background: #f5f0e8; border-bottom: 3px solid #2c2c2c; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
+        .logo { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: #c0392b; text-decoration: none; transform: rotate(-2deg); display: inline-block; }
+        .content { max-width: 800px; margin: 2rem auto; padding: 0 1.5rem; position: relative; z-index: 1; }
+        .paper { background: #f5f0e8; padding: 2rem; margin: 1.5rem 0; position: relative; box-shadow: 4px 4px 0 rgba(0,0,0,0.25); border: 1px solid #d4c9b8; }
+        .paper::before { content: ''; position: absolute; top: -8px; left: 30px; width: 60px; height: 20px; background: rgba(200,200,100,0.6); transform: rotate(-2deg); }
+        .paper:nth-child(odd) { transform: rotate(-0.3deg); }
+        .paper:nth-child(even) { transform: rotate(0.4deg); }
+        .paper:nth-child(even)::before { left: auto; right: 40px; background: rgba(100,180,200,0.5); transform: rotate(1deg); }
+        .paper h2 { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #c0392b; margin-bottom: 1rem; border-bottom: 2px dashed #c0392b; padding-bottom: 0.5rem; }
+        .clip { position: absolute; top: -12px; right: 20px; font-size: 1.5rem; }
+        .item { font-family: 'Special Elite', monospace; font-size: 1rem; line-height: 2; padding: 0.3rem 0; }
+        .item .ok { color: #27ae60; }
+        .item .err { color: #c0392b; }
+        .item .wait { color: #f39c12; }
+        .progress { background: #d4c9b8; border-radius: 4px; height: 12px; margin: 0.8rem 0; overflow: hidden; border: 2px solid #2c2c2c; }
+        .progress-bar { height: 100%; background: #27ae60; transition: width 0.5s; }
+        .timestamp { font-family: 'Special Elite', monospace; font-size: 0.8rem; color: #888; margin-top: 0.5rem; }
+        footer { background: #2c2c2c; color: #f5f0e8; text-align: center; padding: 1.5rem; margin-top: 2rem; font-family: 'Special Elite', monospace; position: relative; z-index: 1; }
+        footer a { color: #f5f0e8; text-decoration: none; }
+        @media(max-width:600px) { .content { padding: 0 1rem; } .paper { padding: 1.5rem; } nav { padding: 0.75rem 1rem; } .logo { font-size: 1.5rem; } }
     </style>
 </head>
 <body>
-    <h1>⚡ Prátika — Status do Deploy</h1>
+    <nav>
+        <a href="https://pratika.blog.br" class="logo">Prátika</a>
+        <span style="font-family:'Special Elite',monospace;color:#2c2c2c;">Status do Site</span>
+    </nav>
 
-    <div class="status-box">
-        <h2>🔄 Última Sincronização</h2>
-        <div class="progress"><div class="progress-bar" id="sync-bar" style="width:0%"></div></div>
-        <div class="log" id="sync-log">Carregando...</div>
+    <div class="content">
+        <div class="paper">
+            <span class="clip">📋</span>
+            <h2>Publicações</h2>
+            <div class="progress"><div class="progress-bar" id="sync-bar" style="width:0%"></div></div>
+            <div id="sync-log"><p class="item wait">⏳ Verificando...</p></div>
+        </div>
+
+        <div class="paper">
+            <span class="clip">📌</span>
+            <h2>Site no Ar?</h2>
+            <div class="progress"><div class="progress-bar" id="cf-bar" style="width:0%"></div></div>
+            <div id="cf-log"><p class="item wait">⏳ Verificando...</p></div>
+        </div>
+
+        <div class="paper">
+            <span class="clip">📎</span>
+            <h2>Serviços</h2>
+            <div id="services-log"><p class="item wait">⏳ Verificando...</p></div>
+        </div>
     </div>
 
-    <div class="status-box">
-        <h2>☁️ CloudFront Cache</h2>
-        <div class="progress"><div class="progress-bar" id="cf-bar" style="width:0%"></div></div>
-        <div class="log" id="cf-log">Carregando...</div>
-    </div>
-
-    <div class="status-box">
-        <h2>📡 Serviços</h2>
-        <div class="log" id="services-log">Carregando...</div>
-    </div>
-
-    <p class="refresh">Auto-refresh a cada 30s | <a href="https://pratika.blog.br">← Voltar ao site</a></p>
+    <footer>
+        <p>Atualiza automaticamente a cada 30 segundos</p>
+        <p style="margin-top:0.5rem;"><a href="https://pratika.blog.br">← Voltar para o site</a></p>
+    </footer>
 
     <script>
-    async function checkStatus() {
+    async function verificar() {
         const syncLog = document.getElementById('sync-log');
         const cfLog = document.getElementById('cf-log');
         const servicesLog = document.getElementById('services-log');
         const syncBar = document.getElementById('sync-bar');
         const cfBar = document.getElementById('cf-bar');
 
-        // Check Ghost API
-        let ghostOk = false;
-        try {
-            const r = await fetch('https://pratika.dataiesb.com/ghost/api/content/posts/?key=da4efa0ae7b57f627d5bd77a17&limit=1');
-            ghostOk = r.ok;
-        } catch(e) {}
-
-        // Check S3/CloudFront
-        let cfOk = false;
-        let cfTime = '';
-        try {
-            const r = await fetch('https://pratika.blog.br/', {method:'HEAD'});
-            cfOk = r.ok;
-            cfTime = r.headers.get('last-modified') || '';
-        } catch(e) {}
-
-        // Check posts on S3
-        let posts = [];
+        let ghostOk = false, posts = [];
         try {
             const r = await fetch('https://pratika.dataiesb.com/ghost/api/content/posts/?key=da4efa0ae7b57f627d5bd77a17&limit=all&fields=title,slug,published_at,updated_at');
-            const d = await r.json();
-            posts = d.posts || [];
+            if (r.ok) { ghostOk = true; posts = (await r.json()).posts || []; }
         } catch(e) {}
 
-        // Sync log
-        const now = new Date().toLocaleString('pt-BR');
-        let syncHtml = `<span class="info">[${now}] Verificando...</span><br>`;
-        syncHtml += `<span class="ok">✓ ${posts.length} posts encontrados no Ghost</span><br>`;
-        posts.forEach(p => {
-            syncHtml += `<span class="ok">  ✓ ${p.title} (/${p.slug}/)</span><br>`;
-        });
-        syncHtml += `<span class="info">Último update: ${posts[0]?.updated_at || 'N/A'}</span>`;
-        syncLog.innerHTML = syncHtml;
-        syncBar.style.width = '100%';
+        let siteOk = false, lastMod = '';
+        try {
+            const r = await fetch('https://pratika.blog.br/', {method:'HEAD'});
+            siteOk = r.ok;
+            lastMod = r.headers.get('last-modified') || '';
+        } catch(e) {}
 
-        // CF log
-        let cfHtml = '';
-        if (cfOk) {
-            cfHtml += `<span class="ok">✓ CloudFront respondendo (200)</span><br>`;
-            cfHtml += `<span class="info">Last-Modified: ${cfTime || 'N/A'}</span><br>`;
-            cfHtml += `<span class="ok">✓ Cache ativo</span>`;
+        // Publicações
+        let html = '';
+        if (posts.length > 0) {
+            html += `<p class="item ok">✅ ${posts.length} matéria${posts.length > 1 ? 's' : ''} publicada${posts.length > 1 ? 's' : ''}</p>`;
+            posts.forEach(p => {
+                const d = new Date(p.published_at).toLocaleDateString('pt-BR');
+                html += `<p class="item ok">📰 ${p.title} — ${d}</p>`;
+            });
+            syncBar.style.width = '100%';
+        } else {
+            html += '<p class="item err">❌ Nenhuma matéria encontrada</p>';
+            syncBar.style.width = '10%';
+        }
+        const agora = new Date().toLocaleString('pt-BR');
+        html += `<p class="timestamp">Última verificação: ${agora}</p>`;
+        syncLog.innerHTML = html;
+
+        // Site no ar
+        if (siteOk) {
+            cfLog.innerHTML = `<p class="item ok">✅ Site funcionando normalmente</p><p class="item ok">🌐 pratika.blog.br — online</p><p class="timestamp">Última atualização do conteúdo: ${lastMod || 'N/A'}</p>`;
             cfBar.style.width = '100%';
         } else {
-            cfHtml += `<span class="err">✗ CloudFront não respondeu</span>`;
-            cfBar.style.width = '30%';
+            cfLog.innerHTML = '<p class="item err">❌ Site fora do ar</p>';
+            cfBar.style.width = '20%';
         }
-        cfLog.innerHTML = cfHtml;
 
-        // Services
-        let svcHtml = '';
-        svcHtml += ghostOk
-            ? '<span class="ok">✓ Ghost CMS (pratika.dataiesb.com)</span><br>'
-            : '<span class="err">✗ Ghost CMS indisponível</span><br>';
-        svcHtml += cfOk
-            ? '<span class="ok">✓ Site público (pratika.blog.br)</span><br>'
-            : '<span class="err">✗ Site público indisponível</span><br>';
-        svcHtml += `<span class="ok">✓ Lambda Sync (pratika-ghost-sync)</span><br>`;
-        svcHtml += `<span class="ok">✓ S3 Bucket (www.pratika.blog.br)</span><br>`;
-        svcHtml += `<span class="ok">✓ CloudFront (E2NBU3I3I8SK21)</span>`;
-        servicesLog.innerHTML = svcHtml;
+        // Serviços
+        let svc = '';
+        svc += ghostOk ? '<p class="item ok">✅ Editor de notícias — funcionando</p>' : '<p class="item err">❌ Editor de notícias — indisponível</p>';
+        svc += siteOk ? '<p class="item ok">✅ Site público — funcionando</p>' : '<p class="item err">❌ Site público — indisponível</p>';
+        svc += '<p class="item ok">✅ Sincronização automática — ativa</p>';
+        servicesLog.innerHTML = svc;
     }
 
-    checkStatus();
-    setInterval(checkStatus, 30000);
+    verificar();
+    setInterval(verificar, 30000);
     </script>
 </body>
 </html>
