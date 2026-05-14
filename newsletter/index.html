@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prátika - Agência Experimental de Comunicação | IESB</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Special+Elite&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #b5311e;
+            font-family: 'Special Elite', monospace;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .hero-section {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin: 3rem 0;
+        }
+        
+        .news-card {
+            background: #f5f0e8;
+            border: 3px solid #2c2c2c;
+            border-radius: 0;
+            padding: 2rem;
+            transform: rotate(-1deg);
+            box-shadow: 8px 8px 0 rgba(0,0,0,0.3);
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        
+        .news-card:nth-child(even) {
+            transform: rotate(1deg);
+        }
+        
+        .news-card:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+        
+        .news-card h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #c0392b;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        .news-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #c0392b;
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .news-card p {
+            font-size: 1rem;
+            color: #2c2c2c;
+            margin-bottom: 1rem;
+        }
+        
+        .polaroid-img {
+            width: 100%;
+            max-width: 300px;
+            border: 15px solid #fff;
+            box-shadow: 4px 4px 8px rgba(0,0,0,0.3);
+            transform: rotate(-2deg);
+            margin: 1rem auto;
+            display: block;
+        }
+        
+        .polaroid-img:nth-child(even) {
+            transform: rotate(2deg);
+        }
+        
+        .read-more {
+            display: inline-block;
+            background: #c0392b;
+            color: #fff;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border: 2px solid #2c2c2c;
+            box-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+            transform: rotate(1deg);
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .read-more:hover {
+            transform: rotate(0deg);
+            background: #a93226;
+        }
+        
+        .team-list {
+            background: rgba(255,255,255,0.1);
+            padding: 1rem;
+            border-left: 4px solid #c0392b;
+            margin: 1rem 0;
+        }
+        
+        .team-list ul {
+            list-style: none;
+            padding-left: 1rem;
+        }
+        
+        .team-list li {
+            margin: 0.5rem 0;
+            position: relative;
+        }
+        
+        .team-list li::before {
+            content: "▶";
+            color: #c0392b;
+            position: absolute;
+            left: -1rem;
+        }
+        
+        footer {
+            background: #f5f0e8;
+            border-top: 4px solid #2c2c2c;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+            box-shadow: 0 -4px 8px rgba(0,0,0,0.3);
+        }
+        
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .footer-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #c0392b;
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-social {
+            font-family: 'Special Elite', monospace;
+            color: #2c2c2c;
+            font-size: 1.1rem;
+            margin: 1rem 0;
+        }
+        
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background: #c0392b;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            border: 2px solid #2c2c2c;
+            box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+            transform: rotate(-2deg);
+            transition: transform 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            transform: rotate(0deg);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 0.3rem;
+            }
+            
+            nav ul li a {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+            
+            .news-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .news-card {
+                padding: 1.5rem;
+            }
+            
+            .news-card h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav style="background:#f5f0e8;border-bottom:3px solid #2c2c2c;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 8px rgba(0,0,0,0.3)">
+        <a href="/" style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:#c0392b;text-decoration:none;transform:rotate(-2deg);display:inline-block">Prátika</a>
+        <ul style="display:flex;gap:0.5rem;list-style:none">
+            <li><a href="/" style="font-family:'Special Elite',monospace;text-decoration:none;color:#2c2c2c;padding:0.5rem 1.2rem;background:#fff;border:2px solid #2c2c2c">Notícias</a></li>
+            <li><a href="/#quem-somos" style="font-family:'Special Elite',monospace;text-decoration:none;color:#2c2c2c;padding:0.5rem 1.2rem;background:#fff;border:2px solid #2c2c2c">Quem Somos</a></li>
+            <li><a href="/#contato" style="font-family:'Special Elite',monospace;text-decoration:none;color:#2c2c2c;padding:0.5rem 1.2rem;background:#fff;border:2px solid #2c2c2c">Fale Conosco</a></li>
+        </ul>
+    </nav>
+
+    <div class="hero-section">
+        <video src="/pratika.mp4" autoplay muted loop playsinline style="max-width:720px;margin:2rem auto;display:block;border:4px solid #f5f0e8;box-shadow:6px 6px 0 rgba(0,0,0,0.3)"></video>
+    </div>
+
+    <div class="container">
+        <div class="news-grid">
+            <!-- Preview da primeira notícia -->
+            <div class="news-card">
+                <h2>Lançamento do Conexão IESB</h2>
+                <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUBWgcVS9iSPxoJ2n_oKxDwkZiAf1VgiEejE-rBekBpC8JjWgwG7UjyQVeVf356pfLl3hiBOmlUBQMvRUNhfXFyrbygtHeGo1arJsdTh2x9w77tIYVGek6L7i2wK5o5O8FiA03OB1Z9OnI8nFKNWLg_qIQA4QoQDKPkpefso1QHaqbDai4XkRxqCTyvd5u7yoC48Ti0DsWU3RJEkHYqZ2ta9VAvd_ATQsjUqK-k=w1280" alt="Conexão IESB" class="polaroid-img">
+                <p>Texto de exemplo</p>
+                <a href="/primeira-noticia" class="read-more">Clique aqui para ler!</a>
+            </div>
+
+            <!-- Artigo completo principal -->
+            <div class="news-card" style="grid-column: 1 / -1;">
+                <h2>IESB ganha agência experimental de comunicação</h2>
+                
+                <p>Colocar em prática os conhecimentos adquiridos no curso de graduação é a expectativa de todo estudante. Foi pensando nisso que teve início a Prátika: Agência Experimental de Comunicação, um projeto há muito desejado por docentes, funcionários e alunos.</p>
+                
+                <p>O time é formado por oito estudantes dos cursos de graduação presencial em Jornalismo, Publicidade e Propaganda, Cinema e Mídias Digitais e Design Gráfico, orientados por docentes de cada área.</p>
+                
+                <p>Entre as tarefas da nova agência experimental estão a criação de campanhas publicitárias para o público interno, a produção de informativos direcionados à comunidade acadêmica, além de posts para redes sociais do IESB. A agência funciona de segunda a sexta-feira, no turno vespertino, no laboratório HC5.</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin: 2rem 0;">
+                    <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUAp7BiBs7d0Kyu7U1A5Byb56oeB7KIi66ZWtrX-Cc3k_Tb75T6veJnjdCpHbHDy2QxpluWUnCpOcNjeDAGNkRUppDqYrVcdhu5opEcRZAvDKX2Hs-E8rByscdxNvIWnA488VmCavls0W0G2hxk4K-w-1P0dI9kGv4-AeFJcZDRqtjpkSjzGBT0N7rfCpSwwjr4l8f0xNDXCIDzkE1MY4QOin8nreS6FeSYWMN0=w1280" alt="Equipe Prátika 1" class="polaroid-img">
+                    
+                    <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUC3890GDIVjvMF5xx7q1wEGS2WXmE8nbU0e44SBRmQ5wIobFuIANuQDBtQ86qEHZ22ImyePWWzge8_6VkN506Dh6qFOYYZu-WCG7FGUmOpLH-mrUGe2Ngxtt_gaUBC3woy-3GEM-grJPXV_w-OKjEeGCdNTAHRgO5Qv7v1vKF4e_KPxuoJBKuLLa7WNz4WAQPFwrAHBmHGYbMgcOFedCbJD5pF5bwQafE06woE=w1280" alt="Equipe Prátika 2" class="polaroid-img">
+                    
+                    <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUBZvVAMQrdOnx3mC53VjoB2mFRgEVjm2O-AJUWmxUF_M5m4cFSd_BLqQs1KmspXkb7fGEDPtFvDfEo_YpchN43EBgr8Um2ynr9YCIgpZXBTpIhJ3G0vkUA1EeSeW_XyibLdPWH6WE5AMA6JmsIkXRoEoR6pSjwOydBhx5IhpZ-HziwDWfhJfNB5h9ROCOM4TE9cslpgT_HrtODeGfFf1MTB0R0jsVZ0n7vqQYw=w1280" alt="Equipe Prátika 3" class="polaroid-img">
+                </div>
+                
+                <h3>Comunicação interna</h3>
+                <p>O professor Alexandre Picarelli, coordenador do curso de Publicidade e Propaganda, definiu o novo projeto como um "laboratório de comunicação interna". O trabalho da Prátika envolve a participação dos coordenadores Daniella Goulart (Jornalismo), Paulo Duro (Cinema e Mídias Digitais) e Marco Lobo (Design Gráfico). Os docentes Nívea Braga, Candida Mariz e Daniel Farias atuam como tutores.</p>
+                
+                <div class="team-list">
+                    <h3 style="margin-top: 0;">Equipe da Prátika</h3>
+                    <ul>
+                        <li><strong>Audiovisual:</strong> Diogo Cazuza, Pedro Pinheiro</li>
+                        <li><strong>Design:</strong> Merlin Zanatta, Mikael Pizzol</li>
+                        <li><strong>Jornalismo:</strong> Gabriela Santos, Larissa Ferraz</li>
+                        <li><strong>Publicidade:</strong> Larissa Fernandes, Isabela Salustiano</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-title">Prátika — Agência Experimental de Comunicação | IESB</div>
+            <div class="footer-social">@pratikaiesb</div>
+            <div class="social-icons">
+                <a href="#" class="social-icon" title="Instagram">📷</a>
+                <a href="#" class="social-icon" title="Facebook">📘</a>
+                <a href="#" class="social-icon" title="Twitter">🐦</a>
+                <a href="#" class="social-icon" title="LinkedIn">💼</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

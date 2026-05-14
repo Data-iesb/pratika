@@ -1,45 +1,50 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: Pratika contact form backend
+Description: Ghost CMS webhook sync for Pratika
+
+Parameters:
+  GhostApiKey:
+    Type: String
+    NoEcho: true
 
 Globals:
   Function:
-    Timeout: 10
+    Timeout: 60
     Runtime: python3.12
-    Environment:
-      Variables:
-        TABLE_NAME: pratika-site-contato
-        TOPIC_ARN: arn:aws:sns:us-east-1:248189947068:pratika-site-contato
 
 Resources:
-  ContactFunction:
+  SyncFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: pratika-contato
-      Handler: app.handler
+      FunctionName: pratika-ghost-sync
       CodeUri: src/
+      Handler: app.lambda_handler
+      Environment:
+        Variables:
+          GHOST_API_KEY: !Ref GhostApiKey
+          S3_BUCKET: www.pratika.blog.br
+          CF_DISTRIBUTION: E2NBU3I3I8SK21
       Policies:
-        - DynamoDBCrudPolicy:
-            TableName: pratika-site-contato
-        - SNSPublishMessagePolicy:
-            TopicName: pratika-site-contato
+        - S3CrudPolicy:
+            BucketName: www.pratika.blog.br
+        - Statement:
+            - Effect: Allow
+              Action:
+                - cloudfront:CreateInvalidation
+              Resource: "*"
       Events:
-        Contact:
-          Type: Api
+        Webhook:
+          Type: HttpApi
           Properties:
-            Path: /contato
-            Method: post
-            RestApiId: !Ref ContactApi
+            Path: /pratika/sync
+            Method: POST
+            ApiId: !Ref SyncApi
 
-  ContactApi:
-    Type: AWS::Serverless::Api
+  SyncApi:
+    Type: AWS::Serverless::HttpApi
     Properties:
       StageName: prod
-      Cors:
-        AllowOrigin: "'*'"
-        AllowHeaders: "'Content-Type'"
-        AllowMethods: "'POST,OPTIONS'"
 
 Outputs:
-  ApiUrl:
-    Value: !Sub "https://${ContactApi}.execute-api.${AWS::Region}.amazonaws.com/prod/contato"
+  WebhookUrl:
+    Value: !Sub "https://api.dataiesb.com/pratika/sync"
