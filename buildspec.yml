@@ -2,7 +2,7 @@ version: 0.2
 phases:
   build:
     commands:
-      - aws s3 sync . s3://www.pratika.blog.br --delete --exclude ".git/*" --exclude "buildspec.yml"
+      - aws s3 sync . s3://www.pratika.blog.br --exclude ".git/*" --exclude "buildspec.yml"
   post_build:
     commands:
       - aws cloudfront create-invalidation --distribution-id E2NBU3I3I8SK21 --paths "/*"
