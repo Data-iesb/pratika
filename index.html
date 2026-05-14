@@ -69,7 +69,6 @@
         .nav-links li:nth-child(even) a { transform: rotate(-0.5deg); }
 
         .section {
-            display: none;
             padding: 3rem 2rem;
             max-width: 1000px;
             margin: 0 auto;
@@ -77,8 +76,6 @@
             z-index: 1;
             animation: fadeIn 0.3s ease;
         }
-
-        .section.active { display: block; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
@@ -194,6 +191,12 @@
             color: #888;
         }
 
+        .carousel-item { display: none; }
+        .carousel-item.active { display: block; }
+        .carousel-controls { display: flex; justify-content: center; gap: 1rem; margin-top: 1rem; }
+        .carousel-btn { font-family: 'Special Elite', monospace; background: #c0392b; color: #fff; border: 2px solid #2c2c2c; padding: 0.5rem 1.5rem; font-size: 1.2rem; cursor: pointer; transition: transform 0.2s; }
+        .carousel-btn:hover { transform: rotate(-1deg) scale(1.05); }
+
         form { display: flex; flex-direction: column; gap: 1rem; }
 
         input, textarea {
@@ -264,11 +267,11 @@
     <canvas id="bg-canvas"></canvas>
 
     <nav>
-        <a href="#" class="logo" onclick="showSection('home')">Prátika</a>
+        <a href="https://pratika.blog.br" class="logo">Prátika</a>
         <ul class="nav-links">
-            <li><a href="#noticias" onclick="showSection('noticias')" class="active">Notícias</a></li>
-            <li><a href="#quem-somos" onclick="showSection('quem-somos')">Quem Somos</a></li>
-            <li><a href="#contato" onclick="showSection('contato')">Fale Conosco</a></li>
+            <li><a href="#noticias">Notícias</a></li>
+            <li><a href="#quem-somos">Quem Somos</a></li>
+            <li><a href="#contato">Fale Conosco</a></li>
         </ul>
     </nav>
 
@@ -285,16 +288,22 @@
         <div class="paper">
             <span class="clip">📎</span>
             <h2>Últimas Notícias</h2>
-        </div>
-        <div class="news-item">
-            <h3>Equipe Prátika dá início às atividades de 2026</h3>
-            <p class="date">05 de maio, 2026</p>
-            <p style="font-family:'Special Elite',monospace;margin-top:0.5rem">A equipe se reuniu para planejar as próximas coberturas e pautas do semestre. Muita coisa boa vem por aí!</p>
-        </div>
-        <div class="news-item">
-            <h3>Novo site no ar!</h3>
-            <p class="date">05 de maio, 2026</p>
-            <p style="font-family:'Special Elite',monospace;margin-top:0.5rem">Nosso espaço digital está de cara nova. Aqui você encontra tudo sobre o que estamos produzindo.</p>
+            <div class="carousel">
+                <div class="news-item carousel-item active">
+                    <h3>Equipe Prátika dá início às atividades de 2026</h3>
+                    <p class="date">05 de maio, 2026</p>
+                    <p style="font-family:'Special Elite',monospace;margin-top:0.5rem">A equipe se reuniu para planejar as próximas coberturas e pautas do semestre. Muita coisa boa vem por aí!</p>
+                </div>
+                <div class="news-item carousel-item">
+                    <h3>Novo site no ar!</h3>
+                    <p class="date">05 de maio, 2026</p>
+                    <p style="font-family:'Special Elite',monospace;margin-top:0.5rem">Nosso espaço digital está de cara nova. Aqui você encontra tudo sobre o que estamos produzindo.</p>
+                </div>
+            </div>
+            <div class="carousel-controls">
+                <button class="carousel-btn" onclick="moveCarousel(-1)">◀</button>
+                <button class="carousel-btn" onclick="moveCarousel(1)">▶</button>
+            </div>
         </div>
     </section>
 
@@ -348,13 +357,12 @@
     </footer>
 
     <script>
-        function showSection(id) {
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-            if (id === 'home') id = 'noticias';
-            document.getElementById(id).classList.add('active');
-            document.querySelector(`a[href="#${id}"]`).classList.add('active');
-        }
+        // Carousel
+        let currentSlide = 0;
+        const items = document.querySelectorAll('.carousel-item');
+        function showSlide(n) { items.forEach(i => i.classList.remove('active')); currentSlide = (n + items.length) % items.length; items[currentSlide].classList.add('active'); }
+        function moveCarousel(dir) { showSlide(currentSlide + dir); }
+        setInterval(() => { if (items.length > 1) moveCarousel(1); }, 5000);
 
         // === SCRAPBOOK CANVAS BACKGROUND EFFECTS ===
         const canvas = document.getElementById('bg-canvas');
